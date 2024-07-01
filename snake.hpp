@@ -36,6 +36,10 @@ public:
   { 
     glUniform3f(glGetUniformLocation(id, name.c_str()), x, y, z); 
   }
+  void setFloat(const std::string &name, float value,unsigned int id) const
+    { 
+        glUniform1f(glGetUniformLocation(id, name.c_str()), value); 
+    }
   void setView(glm::vec3 pos){
     viewPos = pos;
   }
