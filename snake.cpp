@@ -74,8 +74,10 @@ void Snake::SetID(unsigned int id){
   
 }
 
-void Snake::Update(glm::mat4 look){
+void Snake::Update(glm::mat4 look,glm::vec3 cpos,glm::vec3 cFront){
   lookMat = look;
+  camPos = cpos;
+  camFront = cFront;
   
   
  
@@ -98,12 +100,8 @@ void Snake::Draw(){
   glm::mat4 view = lookMat;
   setMat4("proj",projection,ID);
   setMat4("view",view,ID);
-  glm::mat4 model = glm::mat4(1.0f);
-  model = glm::translate(model,snake_pos[3]);
-  setMat4("model",model,ID);
-
-  glm::mat4 inverseModel = glm::inverse(model);
-  setMat4("inverseModel",inverseModel,ID);
+  
+ 
 
   //set material props
   setInt("material.diffuse",0,ID);
@@ -124,21 +122,40 @@ void Snake::Draw(){
   setVec3("light.diffuse",diffuseColor.x,diffuseColor.y,diffuseColor.z,ID);
   setVec3("light.specular",1.0f,1.0f,1.0f,ID);
   */
-  setVec3("light.ambient", 0.2f, 0.2f, 0.2f,ID); 
-  setVec3("light.diffuse", 0.5f, 0.5f, 0.5f,ID);
+  setVec3("light.ambient", 0.1f, 0.1f, 0.1f,ID); 
+  setVec3("light.diffuse", 0.8f, 0.8f, 0.8f,ID);
   setVec3("light.specular", 1.0f, 1.0f, 1.0f,ID);
-
-  //draw
-  glBindVertexArray(VAO);
+  //setVec3("light.direction",-0.2f,-1.0f,-0.3f,ID);
+  setVec3("light.position",camPos.x,camPos.y,camPos.z,ID);
+  setVec3("light.direction",camFront.x,camFront.y,camFront.z,ID);
+  setFloat("light.cutOff",glm::cos(glm::radians(12.5f)),ID);
+  setFloat("light.outerCutOff",glm::cos(glm::radians(17.5f)),ID);
+  //FOR ATTENUATION
+  setFloat("light.constant",1.0f,ID);
+  setFloat("light.linear",0.09f,ID);
+  setFloat("light.quadratic",0.032f,ID);
   
+  glBindVertexArray(VAO);
+    
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D,container);
-
+  
   glActiveTexture(GL_TEXTURE1);
-  glBindTexture(GL_TEXTURE_2D,container_specular);
+  glBindTexture(GL_TEXTURE_2D,container_specular);  
+  //draw
+  for(unsigned int i=0;i<10;i++){
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model,cubePositions[i]);
+    float angle = 20.0f*i;
+    model = glm::rotate(model,glm::radians(angle),glm::vec3(1.0f,0.3f,0.5f));
+    setMat4("model",model,ID);
+
+    glm::mat4 inverseModel = glm::inverse(model);
+    setMat4("inverseModel",inverseModel,ID);
   
-  glDrawArrays(GL_TRIANGLES,0,36);
-  
+    
+    glDrawArrays(GL_TRIANGLES,0,36);
+  }
   
   //for light
   glUseProgram(l_ID);
@@ -149,6 +166,7 @@ void Snake::Draw(){
   setMat4("model",l_model,l_ID);
   setMat4("proj",projection,l_ID);
   setMat4("view",view,l_ID);
+  
   
   glBindVertexArray(l_VAO);
   glDrawArrays(GL_TRIANGLES,0,36);

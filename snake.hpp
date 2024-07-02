@@ -20,7 +20,7 @@ public:
   void l_SetID(unsigned int id){
     l_ID = id;
   }
-  void Update(glm::mat4);
+  void Update(glm::mat4,glm::vec3,glm::vec3);
   void Draw();
   void HandleInput(int);
   void moveNorth();
@@ -52,9 +52,11 @@ public:
 private:
   //glm::mat4 model = glm::mat4(1.0f);
   //glm::vec3 model_pos = glm::vec3(0.0f,0.0f,-3.0f);
-  glm::vec3 lightPos =glm::vec3(0.0f,1.0f,0.0f);
+  glm::vec3 lightPos =glm::vec3(1.2f,1.0f,2.0f);
   glm::vec3 viewPos;
   glm::mat4 lookMat;
+  glm::vec3 camPos;
+  glm::vec3 camFront;
   //int bodyCount = 3;
   double lastUpdatedTime = 0.0f;
   //vaos vbo ebo attrib pointers
@@ -65,6 +67,19 @@ private:
   unsigned int container;
   unsigned int container_specular;
 
+  //positions
+  glm::vec3 cubePositions[10] = {
+    glm::vec3( 0.0f,  0.0f,  0.0f),
+    glm::vec3( 2.0f,  5.0f, -15.0f),
+    glm::vec3(-1.5f, -2.2f, -2.5f),
+    glm::vec3(-3.8f, -2.0f, -12.3f),
+    glm::vec3( 2.4f, -0.4f, -3.5f),
+    glm::vec3(-1.7f,  3.0f, -7.5f),
+    glm::vec3( 1.3f, -2.0f, -2.5f),
+    glm::vec3( 1.5f,  2.0f, -2.5f),
+    glm::vec3( 1.5f,  0.2f, -1.5f),
+    glm::vec3(-1.3f,  1.0f, -1.5f)
+  };
   //for plane
   float plane_vertex[18]={
     -0.8f,0.8f,0.0f,

@@ -20,6 +20,9 @@ public:
     return cameraPos;
 		       
   }
+  glm::vec3 GetFront(){
+    return cameraFront;
+  }
 private:
   glm::mat4 look;
   float fov = 45.0f;
