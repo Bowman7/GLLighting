@@ -88,24 +88,18 @@ void Snake::Draw(){
   glUseProgram(ID);
   //liht color
   glm::vec3 ObjColor = glm::vec3(1.0f,0.5f,0.31f);
-  setVec3("ObjectColor",ObjColor.x,ObjColor.y,ObjColor.z,ID);
-  setVec3("LightColor",1.0f,1.0f,1.0f,ID);
+  setVec3("ObjectColor",ObjColor,ID);
+  //setVec3("LightColor",1.0f,1.0f,1.0f,ID);
   //set lightpos
   //std::cout<<"light pos: "<<lightPos.x<<lightPos.y<<lightPos.z<<std::endl;
   setVec3("lightPos",lightPos.x,lightPos.y,lightPos.z,ID);
-  //set view pos
-  setVec3("ViewPos",viewPos.x,viewPos.y,viewPos.z,ID);
-  //proj
-  glm::mat4 projection =  glm::perspective(glm::radians(45.0f), 1920.0f / 1080.0f, 0.1f, 100.0f);
-  glm::mat4 view = lookMat;
-  setMat4("proj",projection,ID);
-  setMat4("view",view,ID);
-  
  
-
   //set material props
   setInt("material.diffuse",0,ID);
   setInt("material.specular",1,ID);
+  
+  //set view pos
+  setVec3("viewPos",viewPos,ID);
   setFloat("material.shininess",32.0f,ID);
 
   //for light material
@@ -122,26 +116,77 @@ void Snake::Draw(){
   setVec3("light.diffuse",diffuseColor.x,diffuseColor.y,diffuseColor.z,ID);
   setVec3("light.specular",1.0f,1.0f,1.0f,ID);
   */
-  setVec3("light.ambient", 0.1f, 0.1f, 0.1f,ID); 
-  setVec3("light.diffuse", 0.8f, 0.8f, 0.8f,ID);
-  setVec3("light.specular", 1.0f, 1.0f, 1.0f,ID);
-  //setVec3("light.direction",-0.2f,-1.0f,-0.3f,ID);
-  setVec3("light.position",camPos.x,camPos.y,camPos.z,ID);
-  setVec3("light.direction",camFront.x,camFront.y,camFront.z,ID);
-  setFloat("light.cutOff",glm::cos(glm::radians(12.5f)),ID);
-  setFloat("light.outerCutOff",glm::cos(glm::radians(17.5f)),ID);
-  //FOR ATTENUATION
-  setFloat("light.constant",1.0f,ID);
-  setFloat("light.linear",0.09f,ID);
-  setFloat("light.quadratic",0.032f,ID);
-  
-  glBindVertexArray(VAO);
-    
+  //FOR DIRLIGHT STRUCT
+  setVec3("dirLight.direction",-0.2f,-1.0f,-0.3f,ID);
+  setVec3("dirLight.ambient" ,0.05f, 0.05f, 0.05f,ID);
+  setVec3("dirLight.diffuse" ,0.4f, 0.4f, 0.4f,ID);
+  setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f,ID);
+
+  //FOR POINTLIGHT STRUCT
+  //pointlight 1
+  setVec3("pointLights[0].position",pointLightPositions[0],ID);
+  setVec3("pointLights[0].ambient" ,1.0f, 0.0f, 0.0f,ID);
+  setVec3("pointLights[0].diffuse" ,0.8f, 0.8f, 0.8f,ID);
+  setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f,ID);
+  setFloat("pointLights[0].constant",1.0f,ID);
+  setFloat("pointLights[0].linear",0.09f,ID);
+  setFloat("pointLights[0].quadratic",0.032f,ID);
+
+  //point light 2
+  setVec3("pointLights[1].position",pointLightPositions[1],ID);
+  setVec3("pointLights[1].ambient" ,0.0f, 1.0f, 0.0f,ID);
+  setVec3("pointLights[1].diffuse" ,0.8f, 0.8f, 0.8f,ID);
+  setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f,ID);
+  setFloat("pointLights[1].constant",1.0f,ID);
+  setFloat("pointLights[1].linear",0.09f,ID);
+  setFloat("pointLights[1].quadratic",0.032f,ID);
+
+  //point light 3
+  setVec3("pointLights[2].position",pointLightPositions[2],ID);
+  setVec3("pointLights[2].ambient" ,0.0f, 0.0f, 1.0f,ID);
+  setVec3("pointLights[2].diffuse" ,0.8f, 0.8f, 0.8f,ID);
+  setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f,ID);
+  setFloat("pointLights[2].constant",1.0f,ID);
+  setFloat("pointLights[2].linear",0.09f,ID);
+  setFloat("pointLights[2].quadratic",0.032f,ID);
+
+  //point light 4
+  setVec3("pointLights[3].position",pointLightPositions[3],ID);
+  setVec3("pointLights[3].ambient" ,0.05f, 0.05f, 0.05f,ID);
+  setVec3("pointLights[3].diffuse" ,0.8f, 0.8f, 0.8f,ID);
+  setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f,ID);
+  setFloat("pointLights[3].constant",1.0f,ID);
+  setFloat("pointLights[3].linear",0.09f,ID);
+  setFloat("pointLights[3].quadratic",0.032f,ID);
+
+  //FOR SPOTLIGHT STRUCT
+  setVec3("spotLight.position",camPos.x,camPos.y,camPos.z,ID);
+  setVec3("spotLight.direction",camFront.x,camFront.y,camFront.z,ID);
+  setVec3 ("spotLight.ambient" ,0.0f, 0.0f, 0.0f,ID);
+  setVec3 ("spotLight.diffuse" ,1.0f, 1.0f, 1.0f,ID);
+  setVec3 ("spotLight.specular", 1.0f, 1.0f, 1.0f,ID);
+  setFloat("spotLight.constant",1.0f,ID);
+  setFloat("spotLight.linear",0.09f,ID);
+  setFloat("spotLight.quadratic",0.032f,ID);
+  setFloat("spotLight.cutOff",glm::cos(glm::radians(12.5f)),ID);
+  setFloat("spotLight.outerCutOff",glm::cos(glm::radians(15.0f)),ID);
+
+  //proj
+  glm::mat4 projection =  glm::perspective(glm::radians(45.0f), 1920.0f / 1080.0f, 0.1f, 100.0f);
+  glm::mat4 view = lookMat;
+  setMat4("proj",projection,ID);
+  setMat4("view",view,ID);
+
+  glm::mat4 model = glm::mat4(1.0f);
+  setMat4("model",model,ID);
+
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D,container);
   
   glActiveTexture(GL_TEXTURE1);
-  glBindTexture(GL_TEXTURE_2D,container_specular);  
+  glBindTexture(GL_TEXTURE_2D,container_specular);
+  
+  glBindVertexArray(VAO); 
   //draw
   for(unsigned int i=0;i<10;i++){
     glm::mat4 model = glm::mat4(1.0f);
@@ -159,17 +204,20 @@ void Snake::Draw(){
   
   //for light
   glUseProgram(l_ID);
-  glm::mat4 l_model = glm::mat4(1.0f);
-  l_model = glm::translate(l_model,lightPos);
-  l_model = glm::scale(l_model,glm::vec3(0.2f));
-  
-  setMat4("model",l_model,l_ID);
   setMat4("proj",projection,l_ID);
   setMat4("view",view,l_ID);
-  
-  
+
   glBindVertexArray(l_VAO);
-  glDrawArrays(GL_TRIANGLES,0,36);
+  for(unsigned int i=0;i<4;i++){
+    model = glm::mat4(1.0f);
+    model = glm::translate(model,pointLightPositions[i]);
+    model = glm::scale(model,glm::vec3(0.2f));
+    setMat4("model",model,l_ID);
+
+    glDrawArrays(GL_TRIANGLES,0,36);
+  }
+
+
   //glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
   //glBindVertexArray(0);
 }
@@ -185,16 +233,16 @@ bool Snake::EventTriggered(double interval){
 //handle input
 
 void Snake::moveNorth(){
-  lightPos -=glm::vec3(0.0f,0.0f,1.0f);
+  pointLightPositions[2] -=glm::vec3(0.0f,0.0f,1.0f);
 }
 void Snake::moveSouth(){
-  lightPos +=glm::vec3(0.0f,0.0f,1.0f);
+  pointLightPositions[2] +=glm::vec3(0.0f,0.0f,1.0f);
 }
 void Snake::moveEast(){
-  lightPos +=glm::vec3(1.0f,0.0f,0.0f);
+  pointLightPositions[2] +=glm::vec3(1.0f,0.0f,0.0f);
 }
 void Snake::moveWest(){
-  lightPos -=glm::vec3(1.0f,0.0f,0.0f);
+  pointLightPositions[2] -=glm::vec3(1.0f,0.0f,0.0f);
 }
 void Snake::HandleInput(int val){
   switch(val){

@@ -32,9 +32,13 @@ public:
   {
     glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, &mat[0][0]);
   }
-  void setVec3(const std::string &name, float x, float y, float z,unsigned int id) const
+  void setVec3(const std::string &name, const glm::vec3 &value,unsigned int ID) const
   { 
-    glUniform3f(glGetUniformLocation(id, name.c_str()), x, y, z); 
+    glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]); 
+  }
+  void setVec3(const std::string &name, float x, float y, float z,unsigned int ID) const
+  { 
+    glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z); 
   }
   void setFloat(const std::string &name, float value,unsigned int id) const
   { 
@@ -50,6 +54,13 @@ public:
 
   unsigned int loadTexture(const  char*);
 private:
+  glm::vec3 pointLightPositions[4] = {
+	glm::vec3( 0.7f,  0.2f,  2.0f),
+	glm::vec3( 2.3f, -3.3f, -4.0f),
+	glm::vec3(-4.0f,  2.0f, -12.0f),
+	glm::vec3( 0.0f,  0.0f, -3.0f)
+  };  
+
   //glm::mat4 model = glm::mat4(1.0f);
   //glm::vec3 model_pos = glm::vec3(0.0f,0.0f,-3.0f);
   glm::vec3 lightPos =glm::vec3(1.2f,1.0f,2.0f);
