@@ -18,12 +18,13 @@
 struct Vertex{
   glm::vec3 Position;
   glm::vec3 Normal;
-  glm::vec3 TexCoords;
+  glm::vec2 TexCoords;
 };
 
-sturct Texture{
+struct Texture{
   unsigned int id;
-  string type;
+  std::string type;
+  std::string path;
 };
 
 //main class
@@ -33,12 +34,27 @@ public:
   std::vector<Vertex> vertices;
   std::vector<unsigned int> indices;
   std::vector<Texture> textures;
+  
   Mesh(std::vector<Vertex> vertices,
        std::vector<unsigned int> indices,
        std::vector<Texture> textures);
 
-  void Draw(Shader &shader);
+  void Draw(unsigned int ID);
+  
+  void setInt(const std::string &name, int value,unsigned int ID) const
+  { 
+    glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
+  }
+  void setMat4(const std::string &name, const glm::mat4 &mat,unsigned int ID) const
+  {
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+  }
+
+  void Update(glm::mat4 look){
+    lookMat = look;
+  }
 private:
+  glm::mat4 lookMat;
   //render data
   unsigned int VAO,VBO,EBO;
   void setupMesh();

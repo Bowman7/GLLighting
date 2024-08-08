@@ -4,6 +4,7 @@
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 #include<iostream>
+#include<filesystem>
 
 #include"glm/glm.hpp"
 #include"glm/gtc/matrix_transform.hpp"
@@ -14,6 +15,8 @@
 #include"shader.hpp"
 #include"camera.hpp"
 
+//loading model
+#include"model.hpp"
 
 class Game{
 public:
@@ -23,6 +26,11 @@ public:
   void Draw();
   void HandleInput(int);
 private:
+  //for model loading
+  Shader modelShader;
+  
+  Model ourModel;
+  
   int ip;
   Shader gridShader;
   Shader snakeShader;
