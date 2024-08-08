@@ -18,3 +18,8 @@ Harsh edge
 ![Screenshot from 2024-07-02 18-59-04](https://github.com/Bowman7/GLLighting/assets/110030682/0c92b28e-ee3d-455f-8597-5cfe6144520c)
 Smooth edge
 ![Screenshot from 2024-07-02 19-46-50](https://github.com/Bowman7/GLLighting/assets/110030682/5a6c82cd-9740-43f4-a316-4f46c6bdddd0)
+
+# Multiple light sources
+![Screenshot from 2024-07-03 19-50-03](https://github.com/Bowman7/GLLighting/assets/110030682/2132075e-2a8b-482a-aeda-393514faed07)
+
+
