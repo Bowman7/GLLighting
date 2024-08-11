@@ -48,7 +48,7 @@ public:
     glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
   }
 
-  void Update(glm::mat4);
+  void Update(glm::mat4,glm::vec3);
 private:
   
   //for shader id

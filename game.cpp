@@ -14,7 +14,10 @@ Game::Game(){
   modelShader.Init("model_loading.vert","model_loading.frag");
   ourModel.SetID(modelShader.GetID());
 
+  stbi_set_flip_vertically_on_load(true);
   ourModel.Load("backpack/backpack.obj");
+  //ourModel.Load("Model/cottage/cottage_obj.obj");
+  //ourModel.Load("Model/tree/lowpoly.obj");
   
 }
 
@@ -32,7 +35,7 @@ void Game::Update(glm::vec3 camFront,float fv){
   //handle input
   camera.UpdateCameraFront(camFront,fv);
   
-  ourModel.Update(camera.GetViewMatrix());
+  ourModel.Update(camera.GetViewMatrix(),camera.GetPos());
   
   snake.Update(camera.GetViewMatrix(),camera.GetPos(),camera.GetFront());
   snake.setView(camera.GetPos());

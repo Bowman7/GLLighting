@@ -76,9 +76,18 @@ void Mesh::Draw(unsigned int ID){
   model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
   model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
   setMat4("model", model,ID);
-  
-  
-  
+
+  //set the material and mesh
+  setVec3("light.ambient",0.1f,0.1f,0.1f,ID);
+  setInt("material.diffuse",0,ID);
+  //for diffuse
+  setVec3("light.position",lightPos.x,lightPos.y,lightPos.z,ID);
+  setVec3("light.diffuse",0.6f,0.6f,0.6f,ID);
+  //for specular
+  setVec3("viewPos",camPos.x,camPos.y,camPos.z,ID);
+  setFloat("material.shininess",64.0f,ID);
+  setVec3("material.specular",0.5f,0.5f,0.5f,ID);
+  setVec3("light.specular",1.0f,1.0f,1.0f,ID);
   //draw mesh
   glBindVertexArray(VAO);
   glDrawElements(GL_TRIANGLES,

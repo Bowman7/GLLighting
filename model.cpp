@@ -11,10 +11,10 @@ Model::Model(){
 void Model::Load(std::string path){
    loadModel(path);
 }
-void Model::Update(glm::mat4 look){
+void Model::Update(glm::mat4 look,glm::vec3 camPos){
   //glUseProgram(ID);
   for(unsigned int i=0;i<meshes.size();i++){
-    meshes[i].Update(look);
+    meshes[i].Update(look,camPos);
   }
 }
 void Model::Draw(){
