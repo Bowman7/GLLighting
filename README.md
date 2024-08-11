@@ -22,4 +22,7 @@ Smooth edge
 # Multiple light sources
 ![Screenshot from 2024-07-03 19-50-03](https://github.com/Bowman7/GLLighting/assets/110030682/2132075e-2a8b-482a-aeda-393514faed07)
 
+# Model loading with phong lighting
+![Screenshot from 2024-08-11 16-48-38](https://github.com/user-attachments/assets/328db029-7147-4c18-bccc-6766eac89505)
+
 
